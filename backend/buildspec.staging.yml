@@ -1,0 +1,18 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Copying .env.staging into .env
+      - cp .env.staging .env
+      - echo Installing node modules
+      - npm install
+      - echo Dropping and recreating database
+      - npx sequelize-cli db:drop
+      - npx sequelize-cli db:create
+      - echo migrating fresh database
+      - npx sequelize-cli db:migrate
+      - echo seeding database
+      - npx sequelize-cli db:seed:all
+artifacts:
+  files:
+    - '**/*'
